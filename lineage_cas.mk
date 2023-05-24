@@ -21,5 +21,3 @@ PRODUCT_MODEL := Xiaomi Mi 10 Ultra
 PRODUCT_MANUFACTURER := Xiaomi
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
-
-

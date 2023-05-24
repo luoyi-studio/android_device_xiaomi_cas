@@ -1,6 +1,6 @@
 # DIR
 DEVICE_PATH := device/xiaomi/cas
-CAS_PREBUILT := device/xiaomi/Pre-Built-MIUI-13
+# CAS_PREBUILT := device/xiaomi/Pre-Built-MIUI-13
 
 # Architecture(XayahSuSuSu)
 TARGET_ARCH := arm64
@@ -20,6 +20,23 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := kryo385
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := kona
 
+# Build
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_VENDOR_PROPERTY_NAMESPACE := true
+
+# HIDL
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
+    $(DEVICE_PATH)/rootdir/vintf/device_framework_matrix.xml \
+    $(DEVICE_PATH)/rootdir/vintf/xiaomi_framework_matrix.xml
+
+DEVICE_MANIFEST_FILE := \
+    $(DEVICE_PATH)/rootdir/vintf/manifest.xml \
+    $(DEVICE_PATH)/rootdir/vintf/xiaomi_manifest.xml
+
+DEVICE_MATRIX_FILE := \
+    $(DEVICE_PATH)/rootdir/vintf/compatibility_matrix.xml
+
 # Kernel
 # Kernel CMD line
 BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=2048 loop.max_part=7 cgroup.memory=nokmem,nosocket reboot=panic_warm buildvariant=user
@@ -35,15 +52,15 @@ BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 # Kernel DTBO
 BOARD_KERNEL_SEPARATED_DTBO := true
 # Build Kernel From Source
-# TARGET_KERNEL_CLANG_COMPILE := true
-# TARGET_KERNEL_ADDITIONAL_FLAGS := DTC_EXT=$(shell pwd)/prebuilts/misc/$(HOST_OS)-x86/dtc/dtc
-# TARGET_KERNEL_SOURCE := kernel/xiaomi/cas
-# TARGET_KERNEL_CONFIG := vendor/cas_defconfig
+TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_ADDITIONAL_FLAGS := DTC_EXT=$(shell pwd)/prebuilts/misc/$(HOST_OS)-x86/dtc/dtc
+TARGET_KERNEL_SOURCE := kernel/xiaomi/cas
+TARGET_KERNEL_CONFIG := vendor/cas_defconfig
 # Pre-built Kernel
-TARGET_FORCE_PREBUILT_KERNEL := true
-BOARD_PREBUILT_DTBOIMAGE := $(CAS_PREBUILT)/dtbo.img
-TARGET_PREBUILT_KERNEL := $(CAS_PREBUILT)/kernel/kernel
-TARGET_PREBUILT_DTB := $(CAS_PREBUILT)/kernel/dtb.img
+# TARGET_FORCE_PREBUILT_KERNEL := true
+# BOARD_PREBUILT_DTBOIMAGE := $(CAS_PREBUILT)/dtbo.img
+# TARGET_PREBUILT_KERNEL := $(CAS_PREBUILT)/kernel/kernel
+# TARGET_PREBUILT_DTB := $(CAS_PREBUILT)/kernel/dtb.img
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 134217728
@@ -57,7 +74,7 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 
 BOARD_SUPER_PARTITION_SIZE := 9126805504
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product odm vendor
 BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9122611200
 
 BOARD_PARTITION_LIST := $(call to-upper, $(BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST)) # 遍历 BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST 并赋值给 BOARD_PARTITION_LIST
@@ -71,7 +88,7 @@ BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 TARGET_USERIMAGES_USE_F2FS := true
 
 # Vendor
-BUILD_WITHOUT_VENDOR := true
+# BUILD_WITHOUT_VENDOR := true
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
@@ -81,7 +98,7 @@ TARGET_BOARD_PLATFORM := kona
 BOARD_INCLUDE_RECOVERY_DTBO := true # 指定包含 recovery DTBO
 # BOARD_USES_RECOVERY_AS_BOOT := true # 指定 recovery 在 boot 分区中
 # TARGET_NO_RECOVERY := true # 指定设备没有 recovery 分区
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/init/fstab.qcom
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
